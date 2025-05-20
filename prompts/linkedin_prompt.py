@@ -86,23 +86,23 @@ Specific Content Instructions for this stage:
 
 Output Format:
 Return a single JSON object with one key "linkedin_ads". The value of "linkedin_ads" should be a JSON list, where each item is an object representing one LinkedIn ad.
-Each ad object must have the following keys: "ad_name", "funnel_stage", "introductory_text", "image_copy", "headline", "destination", "cta_button".
-Ensure "funnel_stage" is "{funnel_stage}".
-Ensure "cta_button" is "{cta_button}".
-Ensure "destination" is "{destination_link}".
+Each ad object must have the following keys: "Ad Name", "Funnel Stage", "Introductory Text", "Image Copy", "Headline", "Destination", "CTA Button".
+Ensure "Funnel Stage" is "{funnel_stage}".
+Ensure "CTA Button" is "{cta_button}".
+Ensure "Destination" is "{destination_link}".
 Ad names should be unique and follow the format: "{company_name}_LinkedIn_{funnel_stage.replace(' ', '')}_V[N]".
 
 Example of the expected JSON structure (content will vary based on stage):
 {{
   "linkedin_ads": [
     {{
-      "ad_name": "{company_name}_LinkedIn_{funnel_stage.replace(' ', '')}_V1",
-      "funnel_stage": "{funnel_stage}",
-      "introductory_text": "Generated introductory text (300-400 chars, hook in first 150, paragraphs, maybe an emoji 💡).",
-      "image_copy": "Short image text.",
-      "headline": "Compelling LinkedIn Ad Headline (~70 chars)",
-      "destination": "{destination_link}",
-      "cta_button": "{cta_button}"
+      "Ad Name": "{company_name}_LinkedIn_{funnel_stage.replace(' ', '')}_V1",
+      "Funnel Stage": "{funnel_stage}",
+      "Introductory Text": "Generated introductory text (300-400 chars, hook in first 150, paragraphs, maybe an emoji 💡).",
+      "Image Copy": "Short image text.",
+      "Headline": "Compelling LinkedIn Ad Headline (~70 chars)",
+      "Destination": "{destination_link}",
+      "CTA Button": "{cta_button}"
     }}
   ]
 }}
