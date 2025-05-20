@@ -43,7 +43,7 @@ def summarize_text_openai(_client_ref, text_to_summarize, company_name):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini", # Using "gpt-4o-mini" as "gpt-4.1-mini" is not a standard public model name. User can change if they have specific access.
+            model="gpt-4.1-mini", # Using "gpt-4o-mini" as "gpt-4.1-mini" is not a standard public model name. User can change if they have specific access.
             messages=[
                 {"role": "system", "content": "You are a helpful assistant skilled in text summarization."},
                 {"role": "user", "content": prompt_instruction}
@@ -67,7 +67,7 @@ def generate_ad_content_openai(_client_ref, prompt, company_name):
         
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini", # Using "gpt-4o-mini"
+            model="gpt-4.1-mini", # Using "gpt-4o-mini"
             messages=[
                 {"role": "system", "content": f"You are an expert advertising copywriter for {company_name}. You always output valid JSON."},
                 {"role": "user", "content": prompt}
