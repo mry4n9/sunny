@@ -17,9 +17,6 @@ st.set_page_config(page_title="M_AI", layout="wide")
 st.title("M_AI")
 
 # --- Initialize OpenAI Client ---
-# This should ideally be done once.
-# init_openai_client() will set a global 'client' variable in openai_utils
-# and return True/False. We can check its status.
 if 'openai_client_initialized' not in st.session_state:
     st.session_state.openai_client_initialized = init_openai_client()
 
@@ -39,17 +36,17 @@ if "current_company_name" not in st.session_state:
 
 # --- Frontend Inputs ---
 st.header("Extract Company Context")
-company_name_input = st.text_input("Company Name", key="company_name")
-url_raw_input = st.text_input("Client’s URL (e.g., example.com)", key="url_raw")
-additional_raw_file = st.file_uploader("Upload Additional Company Context (PDF or PPTX)", type=["pdf", "pptx"], key="additional_raw")
-magnet_raw_file = st.file_uploader("Upload Lead Magnet (PDF)", type=["pdf"], key="magnet_raw")
+company_name_input = st.text_input("Company Name", key="company_name_input_key") # Changed key to avoid conflict if used elsewhere
+url_raw_input = st.text_input("Client’s URL (e.g., example.com)", key="url_raw_input_key")
+additional_raw_file = st.file_uploader("Upload Additional Company Context (PDF or PPTX)", type=["pdf", "pptx"], key="additional_raw_file_key")
+magnet_raw_file = st.file_uploader("Upload Lead Magnet (PDF)", type=["pdf"], key="magnet_raw_file_key")
 
 st.header("Other Options")
-lead_objective_input = st.selectbox("Lead Objective", ["Demo Booking", "Sales Meeting"], key="lead_objective")
-learn_more_link_input = st.text_input("Link to “Learn More” page", key="learn_more_link")
-magnet_link_input = st.text_input("Link to lead magnet download", key="magnet_link")
-book_link_input = st.text_input("Link to Demo or Sales booking page", key="book_link")
-count_input = st.slider("Content Count (variations per ad type/stage)", 1, 20, 10, key="count")
+lead_objective_input = st.selectbox("Lead Objective", ["Demo Booking", "Sales Meeting"], key="lead_objective_input_key")
+learn_more_link_input = st.text_input("Link to “Learn More” page", key="learn_more_link_input_key")
+magnet_link_input = st.text_input("Link to lead magnet download", key="magnet_link_input_key")
+book_link_input = st.text_input("Link to Demo or Sales booking page", key="book_link_input_key")
+count_input = st.slider("Content Count (variations per ad type/stage)", 1, 20, 5, key="count_input_key")
 
 generate_button = st.button("Generate Content")
 
@@ -62,8 +59,8 @@ if generate_button:
 
     # Clear all Streamlit cache before starting a new generation
     st.cache_data.clear()
-    st.cache_resource.clear() # Though we are not using cache_resource explicitly here.
-    
+    # st.cache_resource.clear() # Not strictly needed unless using @st.cache_resource
+
     # Validate required inputs
     if not company_name_input:
         st.error("Company Name is required.")
@@ -81,14 +78,14 @@ if generate_button:
         url_raw_text = url_extract.extract_text_from_url(url_raw_input)
         additional_raw_text = additional_extract.extract_text_from_additional(additional_raw_file) if additional_raw_file else ""
         magnet_raw_text = magnet_extract.extract_text_from_magnet(magnet_raw_file) if magnet_raw_file else ""
-        
-        if not url_raw_text: # If URL extraction failed or returned empty
+
+        if not url_raw_text:
             status_ui.update(label="URL extraction failed or returned no content. Please check the URL.", state="error")
+            st.error("URL extraction failed or returned no content. Please check the URL and try again.")
             st.stop()
 
         # 2. Summarize Context (AI)
         status_ui.write("Step 2/6: Summarizing extracted context (AI)...")
-        # The client_ref (None) is a placeholder as summarize_text_openai uses the global client
         url_sum_text = url_sum.get_url_summary(None, url_raw_text, company_name_input)
         additional_sum_text = additional_sum.get_additional_summary(None, additional_raw_text, company_name_input) if additional_raw_text else ""
         magnet_sum_text = magnet_sum.get_magnet_summary(None, magnet_raw_text, company_name_input) if magnet_raw_text else ""
@@ -112,10 +109,13 @@ if generate_button:
             lead_objective_input, book_link_input, count_input
         )
         email_json_output = generate_ad_content_openai(None, email_gen_prompt, company_name_input)
-        if email_json_output and "emails" in email_json_output:
+        st.subheader("DEBUG: Raw AI JSON Output (Email)")
+        st.json(email_json_output if email_json_output else "AI returned None or error for Email")
+        if email_json_output and "emails" in email_json_output and isinstance(email_json_output["emails"], list):
             email_ads_data = email_json_output["emails"]
         else:
-            st.warning("Could not generate or parse Email ad data.")
+            st.warning("Could not generate or parse Email ad data correctly from AI. Expected a list under 'emails' key.")
+            email_ads_data = []
 
         linkedin_ads_data = []
         facebook_ads_data = []
@@ -129,10 +129,12 @@ if generate_button:
                 count_input, stage
             )
             linkedin_json_output = generate_ad_content_openai(None, linkedin_gen_prompt, company_name_input)
-            if linkedin_json_output and "linkedin_ads" in linkedin_json_output:
+            st.subheader(f"DEBUG: Raw AI JSON Output (LinkedIn - {stage})")
+            st.json(linkedin_json_output if linkedin_json_output else f"AI returned None or error for LinkedIn {stage}")
+            if linkedin_json_output and "linkedin_ads" in linkedin_json_output and isinstance(linkedin_json_output["linkedin_ads"], list):
                 linkedin_ads_data.extend(linkedin_json_output["linkedin_ads"])
             else:
-                st.warning(f"Could not generate or parse LinkedIn ({stage}) ad data.")
+                st.warning(f"Could not generate or parse LinkedIn ({stage}) ad data correctly. Expected a list under 'linkedin_ads' key.")
 
             status_ui.write(f"Step 4/6: Generating Facebook ads for {stage} (AI)...")
             facebook_gen_prompt = facebook_prompt.get_facebook_prompt_for_stage(
@@ -141,28 +143,44 @@ if generate_button:
                 count_input, stage
             )
             facebook_json_output = generate_ad_content_openai(None, facebook_gen_prompt, company_name_input)
-            if facebook_json_output and "facebook_ads" in facebook_json_output:
+            st.subheader(f"DEBUG: Raw AI JSON Output (Facebook - {stage})")
+            st.json(facebook_json_output if facebook_json_output else f"AI returned None or error for Facebook {stage}")
+            if facebook_json_output and "facebook_ads" in facebook_json_output and isinstance(facebook_json_output["facebook_ads"], list):
                 facebook_ads_data.extend(facebook_json_output["facebook_ads"])
             else:
-                st.warning(f"Could not generate or parse Facebook ({stage}) ad data.")
-        
+                st.warning(f"Could not generate or parse Facebook ({stage}) ad data correctly. Expected a list under 'facebook_ads' key.")
+
         status_ui.write("Step 4/6: Generating Google Search ad content (AI)...")
         search_ads_data = []
         search_gen_prompt = search_prompt.get_search_prompt(company_name_input, url_sum_text, additional_sum_text)
         search_json_output = generate_ad_content_openai(None, search_gen_prompt, company_name_input)
-        if search_json_output and "search_ads" in search_json_output:
+        st.subheader("DEBUG: Raw AI JSON Output (Google Search)")
+        st.json(search_json_output if search_json_output else "AI returned None or error for Google Search")
+        if search_json_output and "search_ads" in search_json_output and isinstance(search_json_output["search_ads"], list):
             search_ads_data = search_json_output["search_ads"]
         else:
-            st.warning("Could not generate or parse Google Search ad data.")
+            st.warning("Could not generate or parse Google Search ad data correctly. Expected a list under 'search_ads' key.")
+            search_ads_data = []
 
         status_ui.write("Step 4/6: Generating Google Display ad content (AI)...")
         display_ads_data = []
         display_gen_prompt = display_prompt.get_display_prompt(company_name_input, url_sum_text, additional_sum_text)
         display_json_output = generate_ad_content_openai(None, display_gen_prompt, company_name_input)
-        if display_json_output and "display_ads" in display_json_output:
+        st.subheader("DEBUG: Raw AI JSON Output (Google Display)")
+        st.json(display_json_output if display_json_output else "AI returned None or error for Google Display")
+        if display_json_output and "display_ads" in display_json_output and isinstance(display_json_output["display_ads"], list):
             display_ads_data = display_json_output["display_ads"]
         else:
-            st.warning("Could not generate or parse Google Display ad data.")
+            st.warning("Could not generate or parse Google Display ad data correctly. Expected a list under 'display_ads' key.")
+            display_ads_data = []
+
+        # DEBUG: Show the lists that will be passed to Excel generation
+        st.subheader("DEBUG: Data for Excel Processing")
+        st.write("Email Data (list of dicts):", email_ads_data)
+        st.write("LinkedIn Data (list of dicts):", linkedin_ads_data)
+        st.write("Facebook Data (list of dicts):", facebook_ads_data)
+        st.write("Google Search Data (list of dicts):", search_ads_data)
+        st.write("Google Display Data (list of dicts):", display_ads_data)
 
         # 5. Parse and Format into XLSX
         status_ui.write("Step 5/6: Generating Excel report...")
@@ -171,7 +189,7 @@ if generate_button:
             facebook_ads_data, search_ads_data, display_ads_data
         )
         st.session_state.lead_gen_excel_bytes = excel_bytes
-        
+
         status_ui.update(label="Step 6/6: All content generated!", state="complete", expanded=False)
         st.success("Content generation complete! You can now download the files.")
 
