@@ -49,7 +49,7 @@ lead_objective_input = st.selectbox("Lead Objective", ["Demo Booking", "Sales Me
 learn_more_link_input = st.text_input("Link to “Learn More” page", key="learn_more_link")
 magnet_link_input = st.text_input("Link to lead magnet download", key="magnet_link")
 book_link_input = st.text_input("Link to Demo or Sales booking page", key="book_link")
-count_input = st.slider("Content Count (variations per ad type/stage)", 1, 20, 5, key="count")
+count_input = st.slider("Content Count (variations per ad type/stage)", 1, 20, 10, key="count")
 
 generate_button = st.button("Generate Content")
 
