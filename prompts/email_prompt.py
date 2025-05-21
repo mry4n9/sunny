@@ -26,26 +26,26 @@ Output Format:
 Return a single JSON object with one key "emails". The value of "emails" should be a JSON list, where each item in the list is an object representing one email.
 Each email object must have the following keys: "Ad Name", "Funnel Stage", "Headline", "Subject Line", "Body", "CTA".
 Ensure "Funnel Stage" is always "Demand Capture".
-Ad names should be unique and follow the format: "{company_name}_Email_V[N]", e.g., "{company_name}_Email_V1".
+Ad names should be unique and follow the format: "{company_name}_Email_DemandCapture_V[N]", e.g., "{company_name}_Email_V1".
 Add "\ n" in beginning and end of Body.
 
 Example of the expected JSON structure:
 {{
   "emails": [
     {{
-      "Ad Name": "{company_name}_Email_V1",
+      "Ad Name": "{company_name}_Email_DemandCapture_V1",
       "Funnel Stage": "Demand Capture",
       "Headline": "Generated Headline 1 (often similar to subject or a pre-header)",
       "Subject Line": "Generated Subject Line 1",
-      "Body": "Hi [Name],\\n\\nThis is the first paragraph of the email body, clearly stating the purpose and value.\\n\\nThis is the second paragraph, perhaps elaborating on benefits or addressing a pain point. It leads to the call to action.\\n\\nThis could be a brief third paragraph if needed.",
+      "Body": "Hi [Name],This is the first paragraph of the email body.",
       "CTA": "Book Your Demo Now"
     }},
     {{
-      "ad_name": "{company_name}_Email_V2",
+      "Ad Name": "{company_name}_Emai_DemandCapture_V2",
       "Funnel Stage": "Demand Capture",
       "Headline": "Generated Headline 2",
       "Subject Line": "Generated Subject Line 2",
-      "Body": "Hi [Name],\\n\\nAnother variation of the email body, following the 2-3 paragraph structure and professional tone.",
+      "Body": "Another variation of the email body, following the 2-3 paragraph structure and professional tone.",
       "CTA": "Schedule a Meeting"
     }}
   ]

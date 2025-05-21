@@ -86,7 +86,7 @@ Example of the expected JSON structure (content will vary based on stage):
 {{
   "facebook_ads": [
     {{
-      "Ad_Name": "{company_name}_Facebook_{funnel_stage.replace(' ', '')}_V1",
+      "Ad Name": "{company_name}_Facebook_{funnel_stage.replace(' ', '')}_V1",
       "Funnel Stage": "{funnel_stage}",
       "Primary Text": "Generated primary text (300-400 chars, hook in first 125, paragraphs, maybe an emoji ✨).",
       "Image Copy": "Short image text.",

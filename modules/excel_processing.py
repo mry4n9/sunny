@@ -5,7 +5,7 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 import io
 
 def create_excel_report(company_name, email_data, linkedin_data, facebook_data, search_data, display_data):
-    wb = Workbook()
+    wb = Workbook() # Creates a workbook with one default sheet
     
     # Define styles
     header_font = Font(color="FFFFFF", bold=True)
@@ -18,9 +18,11 @@ def create_excel_report(company_name, email_data, linkedin_data, facebook_data, 
                          top=Side(style='thin'), 
                          bottom=Side(style='thin'))
 
-    def style_sheet(ws, df_columns):
-        # Style headers
-        for col_idx, column_name in enumerate(df_columns, 1):
+    def setup_sheet_with_headers_and_styles(ws, sheet_title, columns_list, data_list):
+        ws.title = sheet_title
+        
+        # 1. Write and style headers first
+        for col_idx, column_name in enumerate(columns_list, 1):
             cell = ws.cell(row=1, column=col_idx)
             cell.value = column_name
             cell.font = header_font
@@ -28,70 +30,68 @@ def create_excel_report(company_name, email_data, linkedin_data, facebook_data, 
             cell.alignment = header_alignment
             cell.border = thin_border
         
-        # Style content cells and set column widths
-        for row_idx, row in enumerate(ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=ws.max_column), 2):
-            for cell in row:
-                cell.alignment = content_alignment
-                cell.border = thin_border
+        # 2. Append data rows (will start from row 2)
+        if data_list:
+            df = pd.DataFrame(data_list, columns=columns_list) # Ensure consistent column order if data is dicts
+            for r_idx, row_data in enumerate(dataframe_to_rows(df, index=False, header=False), 2): # Start r_idx at 2 for row numbers
+                for c_idx, value in enumerate(row_data, 1):
+                    cell = ws.cell(row=r_idx, column=c_idx, value=value)
+                    # Apply content styling here directly
+                    cell.alignment = content_alignment
+                    cell.border = thin_border
         
-        for col in ws.columns:
+        # 3. Style content cells (if data was added) and set column widths
+        # This part is slightly redundant if styling is done during cell creation, but good for overall formatting
+        max_rows_to_style = ws.max_row if data_list else 1 # Only style content if data exists
+        for row_idx in range(2, max_rows_to_style + 1): # Iterate from row 2
+            for col_idx in range(1, len(columns_list) + 1):
+                cell = ws.cell(row=row_idx, column=col_idx)
+                if cell.value is not None: # Apply only if cell has content
+                    cell.alignment = content_alignment
+                    cell.border = thin_border
+        
+        for col_idx_letter, column_cells in enumerate(ws.columns, 1):
             max_length = 0
-            column = col[0].column_letter # Get the column name
-            for cell in col:
-                try: # Necessary to avoid error on empty cells
-                    if len(str(cell.value)) > max_length:
+            # Check header length first
+            if ws.cell(row=1, column=col_idx_letter).value:
+                 max_length = len(str(ws.cell(row=1, column=col_idx_letter).value))
+
+            for cell in column_cells: # column_cells includes the header cell
+                if cell.row == 1: # Skip header for max_length calculation if already considered or style differently
+                    pass
+                try:
+                    if cell.value and len(str(cell.value)) > max_length:
                         max_length = len(str(cell.value))
                 except:
                     pass
-            adjusted_width = (max_length + 2) * 1.2
-            ws.column_dimensions[column].width = min(max(adjusted_width, 15), 50) # Min/max width
+            adjusted_width = (max_length + 2) * 1.2 if max_length > 0 else 15 # Ensure a minimum width
+            ws.column_dimensions[column_cells[0].column_letter].width = min(max(adjusted_width, 15), 50)
+
 
     # Email Page
-    ws_email = wb.active
-    ws_email.title = "Email"
+    ws_email = wb.active # Get the first default sheet
     email_cols = ["Ad Name", "Funnel Stage", "Headline", "Subject Line", "Body", "CTA"]
-    if email_data:
-        email_df = pd.DataFrame(email_data, columns=email_cols)
-        for r in dataframe_to_rows(email_df, index=False, header=False): # data only
-             ws_email.append(r)
-    style_sheet(ws_email, email_cols)
-
+    setup_sheet_with_headers_and_styles(ws_email, "Email", email_cols, email_data)
 
     # LinkedIn Page
     ws_linkedin = wb.create_sheet("LinkedIn")
     linkedin_cols = ["Ad Name", "Funnel Stage", "Introductory Text", "Image Copy", "Headline", "Destination", "CTA Button"]
-    if linkedin_data:
-        linkedin_df = pd.DataFrame(linkedin_data, columns=linkedin_cols)
-        for r in dataframe_to_rows(linkedin_df, index=False, header=False):
-            ws_linkedin.append(r)
-    style_sheet(ws_linkedin, linkedin_cols)
+    setup_sheet_with_headers_and_styles(ws_linkedin, "LinkedIn", linkedin_cols, linkedin_data)
 
     # FaceBook Page
     ws_facebook = wb.create_sheet("FaceBook")
     facebook_cols = ["Ad Name", "Funnel Stage", "Primary Text", "Image Copy", "Headline", "Link Description", "Destination", "CTA Button"]
-    if facebook_data:
-        facebook_df = pd.DataFrame(facebook_data, columns=facebook_cols)
-        for r in dataframe_to_rows(facebook_df, index=False, header=False):
-            ws_facebook.append(r)
-    style_sheet(ws_facebook, facebook_cols)
+    setup_sheet_with_headers_and_styles(ws_facebook, "FaceBook", facebook_cols, facebook_data)
 
     # Google Search Page
     ws_search = wb.create_sheet("Google Search")
     search_cols = ["Headline", "Description"]
-    if search_data:
-        search_df = pd.DataFrame(search_data, columns=search_cols)
-        for r in dataframe_to_rows(search_df, index=False, header=False):
-            ws_search.append(r)
-    style_sheet(ws_search, search_cols)
+    setup_sheet_with_headers_and_styles(ws_search, "Google Search", search_cols, search_data)
     
     # Google Display Page
     ws_display = wb.create_sheet("Google Display")
     display_cols = ["Headline", "Description"]
-    if display_data:
-        display_df = pd.DataFrame(display_data, columns=display_cols)
-        for r in dataframe_to_rows(display_df, index=False, header=False):
-            ws_display.append(r)
-    style_sheet(ws_display, display_cols)
+    setup_sheet_with_headers_and_styles(ws_display, "Google Display", display_cols, display_data)
 
     file_stream = io.BytesIO()
     wb.save(file_stream)
