@@ -24,28 +24,29 @@ Specific Instructions for Email Content:
 
 Output Format:
 Return a single JSON object with one key "emails". The value of "emails" should be a JSON list, where each item in the list is an object representing one email.
-Each email object must have the following keys: "ad_name", "funnel_stage", "headline", "subject_line", "body", "cta".
-Ensure "funnel_stage" is always "Demand Capture".
+Each email object must have the following keys: "Ad Name", "Funnel Stage", "Headline", "Subject Line", "Body", "CTA".
+Ensure "Funnel Stage" is always "Demand Capture".
 Ad names should be unique and follow the format: "{company_name}_Email_V[N]", e.g., "{company_name}_Email_V1".
+Add "\ n" in beginning and end of Body.
 
 Example of the expected JSON structure:
 {{
   "emails": [
     {{
-      "ad_name": "{company_name}_Email_V1",
-      "funnel_stage": "Demand Capture",
-      "headline": "Generated Headline 1 (often similar to subject or a pre-header)",
-      "subject_line": "Generated Subject Line 1",
-      "body": "Hi [Name],\\n\\nThis is the first paragraph of the email body, clearly stating the purpose and value.\\n\\nThis is the second paragraph, perhaps elaborating on benefits or addressing a pain point. It leads to the call to action.\\n\\nThis could be a brief third paragraph if needed.",
-      "cta": "Book Your Demo Now"
+      "Ad Name": "{company_name}_Email_V1",
+      "Funnel Stage": "Demand Capture",
+      "Headline": "Generated Headline 1 (often similar to subject or a pre-header)",
+      "Subject Line": "Generated Subject Line 1",
+      "Body": "Hi [Name],\\n\\nThis is the first paragraph of the email body, clearly stating the purpose and value.\\n\\nThis is the second paragraph, perhaps elaborating on benefits or addressing a pain point. It leads to the call to action.\\n\\nThis could be a brief third paragraph if needed.",
+      "CTA": "Book Your Demo Now"
     }},
     {{
       "ad_name": "{company_name}_Email_V2",
-      "funnel_stage": "Demand Capture",
-      "headline": "Generated Headline 2",
-      "subject_line": "Generated Subject Line 2",
-      "body": "Hi [Name],\\n\\nAnother variation of the email body, following the 2-3 paragraph structure and professional tone.",
-      "cta": "Schedule a Meeting"
+      "Funnel Stage": "Demand Capture",
+      "Headline": "Generated Headline 2",
+      "Subject Line": "Generated Subject Line 2",
+      "Body": "Hi [Name],\\n\\nAnother variation of the email body, following the 2-3 paragraph structure and professional tone.",
+      "CTA": "Schedule a Meeting"
     }}
   ]
 }}

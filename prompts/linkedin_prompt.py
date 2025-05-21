@@ -19,7 +19,7 @@ def get_linkedin_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
             - Tone: Engaging and informative.
             - Emojis: Use 1-2 professional emojis (e.g., 💡, 🚀, 📈, ✅) where appropriate to enhance readability and engagement, but don't overdo it.
             - Focus: Introduce {company_name} and its core value proposition or a key aspect relevant to brand awareness.
-        - **Image Copy**: Short, impactful text (5-10 words) that complements the visual.
+        - **Image Copy**: Text for acompanying image.
         - **Headline**: Around 70 characters. Make it intriguing and relevant to the brand.
         """
     elif funnel_stage == 'Demand Gen':
@@ -32,10 +32,10 @@ def get_linkedin_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
             - Hook: Clearly state the benefit of the lead magnet within the first 150 characters.
             - Structure: Split into 2-3 short paragraphs.
             - Tone: Value-driven and persuasive.
-            - Emojis: Use 1-2 professional emojis (e.g., 📄, 💡, 🔑, 🎁) relevant to a downloadable resource.
+            - Emojis: Use 1-2 professional emojis (e.g., 📄, 💡, 🔑) relevant to a downloadable resource.
             - Focus: Highlight the problems the lead magnet solves or the value it provides.
-        - **Image Copy**: Text that reinforces the lead magnet's offer (e.g., "Free Guide Inside").
-        - **Headline**: Around 70 characters. Clearly state what the user will get (e.g., "Get Your Free [Lead Magnet Title]").
+        - **Image Copy**: Text that reinforces the lead magnet's offer.
+        - **Headline**: Around 70 characters. Clearly state what the user will get.
         """
     elif funnel_stage == 'Demand Capture':
         # CTA button text for Demand Capture is dynamic based on lead_objective
@@ -63,8 +63,8 @@ def get_linkedin_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
             - Tone: Action-oriented and benefit-focused.
             - Emojis: Use 1-2 professional emojis (e.g., 📅, 💬, 🎯, ✅) relevant to booking or consultation.
             - Focus: Persuade users to take the next step ({lead_objective}).
-        - **Image Copy**: Text that supports the direct call to action (e.g., "Book Your Spot").
-        - **Headline**: Around 70 characters. Clearly state the offer, e.g., "Book a Free Demo Today" or "Schedule Your Consultation".
+        - **Image Copy**: Text that supports the direct call to action
+        - **Headline**: Around 70 characters. Clearly state the offer.
         """
 
     prompt = f"""
@@ -91,6 +91,7 @@ Ensure "Funnel Stage" is "{funnel_stage}".
 Ensure "CTA Button" is "{cta_button}".
 Ensure "Destination" is "{destination_link}".
 Ad names should be unique and follow the format: "{company_name}_LinkedIn_{funnel_stage.replace(' ', '')}_V[N]".
+Add "\ n" in beginning and end of Introductory Text.
 
 Example of the expected JSON structure (content will vary based on stage):
 {{

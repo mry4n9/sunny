@@ -17,9 +17,9 @@ def get_facebook_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
             - Hook: Capture attention and convey the main message within the first 125 characters (visible before 'See More').
             - Structure: Split into 2-3 short paragraphs for readability on mobile.
             - Tone: Engaging, friendly, and informative.
-            - Emojis: Use 1-2 relevant and professional emojis (e.g., ✨, 👍, 👀, 🌍) to add personality and visual appeal.
+            - Emojis: Use 1-2 relevant and professional emojis to add personality and visual appeal.
             - Focus: Introduce {company_name}, its mission, or a key unique selling proposition.
-        - **Image Copy**: Very short, catchy text for the image/video (3-7 words).
+        - **Image Copy**: Text for acompanying image.
         - **Headline**: Around 27 characters. Make it punchy and attention-grabbing.
         - **Link Description**: Around 27 characters. Provide a brief additional context or benefit.
         """
@@ -36,7 +36,7 @@ def get_facebook_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
             - Emojis: Use 1-2 emojis (e.g., 📖, 💡, 🔗, 🎯) relevant to the lead magnet.
             - Focus: Explain what the lead magnet is and why someone should download it.
         - **Image Copy**: Text reinforcing the download offer (e.g., "Free PDF Guide").
-        - **Headline**: Around 27 characters. Clear call to download (e.g., "Get Your Free Guide").
+        - **Headline**: Around 27 characters. Clear call to download.
         - **Link Description**: Around 27 characters. Briefly mention a key benefit or content of the magnet.
         """
     elif funnel_stage == 'Demand Capture':
@@ -51,9 +51,9 @@ def get_facebook_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
             - Tone: Direct, urgent (but polite), and benefit-driven.
             - Emojis: Use 1-2 emojis (e.g., 📅, ⏰, 👉, ✅) that encourage action.
             - Focus: Clearly explain the benefits of taking the action ({lead_objective}) and make it easy to do so.
-        - **Image Copy**: Text that supports the booking action (e.g., "Reserve Your Slot!").
-        - **Headline**: Around 27 characters. Strong call to action (e.g., "Book Your Demo").
-        - **Link Description**: Around 27 characters. Reinforce the value of booking (e.g., "Limited Spots Available").
+        - **Image Copy**: Text that supports the booking action.
+        - **Headline**: Around 27 characters. Strong call to action.
+        - **Link Description**: Around 27 characters. Reinforce the value of booking.
         """
 
     prompt = f"""
@@ -75,24 +75,25 @@ Specific Content Instructions for this stage:
 
 Output Format:
 Return a single JSON object with one key "facebook_ads". The value of "facebook_ads" should be a JSON list, where each item is an object representing one Facebook ad.
-Each ad object must have the following keys: "ad_name", "funnel_stage", "primary_text", "image_copy", "headline", "link_description", "destination", "cta_button".
-Ensure "funnel_stage" is "{funnel_stage}".
-Ensure "cta_button" is "{cta_button}".
-Ensure "destination" is "{destination_link}".
+Each ad object must have the following keys: "Ad Name", "Funnel Stage", "Primary Text", "Image Copy", "Headline", "Link Description", "Destination", "CTA Button".
+Ensure "Funnel Stage" is "{funnel_stage}".
+Ensure "CTA Button" is "{cta_button}".
+Ensure "Destination" is "{destination_link}".
 Ad names should be unique and follow the format: "{company_name}_Facebook_{funnel_stage.replace(' ', '')}_V[N]".
+Add "\ n" in beginning and end of Primary Text.
 
 Example of the expected JSON structure (content will vary based on stage):
 {{
   "facebook_ads": [
     {{
-      "ad_name": "{company_name}_Facebook_{funnel_stage.replace(' ', '')}_V1",
-      "funnel_stage": "{funnel_stage}",
-      "primary_text": "Generated primary text (300-400 chars, hook in first 125, paragraphs, maybe an emoji ✨).",
-      "image_copy": "Short image text.",
-      "headline": "Catchy FB Headline (~27c)",
-      "link_description": "FB Link Desc. (~27c)",
-      "destination": "{destination_link}",
-      "cta_button": "{cta_button}"
+      "Ad_Name": "{company_name}_Facebook_{funnel_stage.replace(' ', '')}_V1",
+      "Funnel Stage": "{funnel_stage}",
+      "Primary Text": "Generated primary text (300-400 chars, hook in first 125, paragraphs, maybe an emoji ✨).",
+      "Image Copy": "Short image text.",
+      "Headline": "Catchy FB Headline (~27c)",
+      "Link Description": "FB Link Desc. (~27c)",
+      "Destination": "{destination_link}",
+      "CTA Button": "{cta_button}"
     }}
   ]
 }}

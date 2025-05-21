@@ -16,17 +16,16 @@ Requirements:
 
 Output Format:
 Return a single JSON object with one key "search_ads". The value of "search_ads" should be a JSON list of 15 objects.
-Each object must have two keys: "headline" and "description".
+Each object must have two keys: "Headline" and "Description".
 
 Example of the expected JSON structure (showing first 5 items):
 {{
   "search_ads": [
-    {{ "headline": "Generated Headline 1 (max 30 chars)", "description": "Generated Description 1 (max 90 chars)" }},
-    {{ "headline": "Generated Headline 2 (max 30 chars)", "description": "Generated Description 2 (max 90 chars)" }},
-    {{ "headline": "Generated Headline 3 (max 30 chars)", "description": "Generated Description 3 (max 90 chars)" }},
-    {{ "headline": "Generated Headline 4 (max 30 chars)", "description": "Generated Description 4 (max 90 chars)" }},
-    {{ "headline": "Generated Headline 5 (max 30 chars)", "description": "" }},
-    {{ "headline": "Generated Headline 6 (max 30 chars)", "description": "" }}
+    {{ "Headline": "Generated Headline 1 (max 30 chars)", "Description": "Generated Description 1 (max 90 chars)" }},
+    {{ "Headline": "Generated Headline 2 (max 30 chars)", "Description": "Generated Description 2 (max 90 chars)" }},
+    {{ "Headline": "Generated Headline 3 (max 30 chars)", "Description": "Generated Description 3 (max 90 chars)" }},
+    {{ "Headline": "Generated Headline 4 (max 30 chars)", "Description": "Generated Description 4 (max 90 chars)" }},
+    {{ "Headline": "Generated Headline 5 (max 30 chars)" }},
     // ... and so on, up to 15 items
   ]
 }}
