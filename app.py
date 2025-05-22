@@ -15,7 +15,7 @@ from prompts import email_prompt, linkedin_prompt, facebook_prompt, search_promp
 st.set_page_config(page_title="Danelec Lead Engine GeneratorI", layout="wide")
 
 # --- App Title and Footer ---
-st.title("MDanelec Lead Engine Generator")
+st.title("Danelec Lead Engine Generator")
 
 # --- Initialize OpenAI Client ---
 if 'openai_client_initialized' not in st.session_state:
