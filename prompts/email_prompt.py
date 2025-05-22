@@ -4,30 +4,31 @@ You are an expert advertising copywriter for {company_name}.
 Your task is to generate {count} unique email ad variations.
 
 Context:
-URL Summary: {url_sum if url_sum else "Not provided."}
-Additional Context Summary: {additional_sum if additional_sum else "Not provided."}
+Company context: {url_sum if url_sum else "Not provided."}
+Additional company context: {additional_sum if additional_sum else "Not provided."}
 
 Email Requirements:
-- Funnel Stage: Demand Capture
 - Lead Objective: {lead_objective}
 - CTA should lead to: {book_link}
 
-Specific Instructions for Email Content:
-- **Subject Line**: Make it compelling and concise.
-- **Body**:
+Specific Instructions:
+- Ad Name: should be unique and follow the format: "{company_name}_Email_DemandCapture_V[N]".
+- Funnel Stage: Demand Capture
+- Subject Line: Make it compelling and concise.
+- Headline:
+- Body:
     - Start with "Hi [Name]," (use this exact placeholder).
-    - Consist of 2-3 paragraphs.
+    - Use SCQA (Situation, Complication, Question, Answer) framework.
+    - Split into paragraphs.
     - Maintain a professional and persuasive tone.
     - Clearly articulate the value proposition related to the '{lead_objective}'.
     - Naturally lead to the Call to Action (CTA).
-- **CTA**: Should be a clear call to action related to the '{lead_objective}' and '{book_link}'. For example, if the objective is 'Demo Booking', CTA could be 'Book Your Demo' or 'Schedule a Demo'.
+    - Add "\ n" in beginning and end of Body.
+- CTA: Should be a clear call to action related to the '{lead_objective}' and '{book_link}'.
 
 Output Format:
 Return a single JSON object with one key "emails". The value of "emails" should be a JSON list, where each item in the list is an object representing one email.
-Each email object must have the following keys: "Ad Name", "Funnel Stage", "Headline", "Subject Line", "Body", "CTA".
-Ensure "Funnel Stage" is always "Demand Capture".
-Ad names should be unique and follow the format: "{company_name}_Email_DemandCapture_V[N]", e.g., "{company_name}_Email_V1".
-Add "\ n" in beginning and end of Body.
+Each email object must have the following keys: "Ad Name", "Funnel Stage", "Subject Line", "Headline", "Body", "CTA".
 
 Example of the expected JSON structure:
 {{
@@ -35,18 +36,18 @@ Example of the expected JSON structure:
     {{
       "Ad Name": "{company_name}_Email_DemandCapture_V1",
       "Funnel Stage": "Demand Capture",
-      "Headline": "Generated Headline 1 (often similar to subject or a pre-header)",
-      "Subject Line": "Generated Subject Line 1",
-      "Body": "Hi [Name],This is the first paragraph of the email body.",
-      "CTA": "Book Your Demo Now"
+      "Subject Line": "sample",
+      "Headline": "sample",
+      "Body": "sample",
+      "CTA": "sample"
     }},
     {{
-      "Ad Name": "{company_name}_Emai_DemandCapture_V2",
-      "Funnel Stage": "Demand Capture",
-      "Headline": "Generated Headline 2",
-      "Subject Line": "Generated Subject Line 2",
-      "Body": "Another variation of the email body, following the 2-3 paragraph structure and professional tone.",
-      "CTA": "Schedule a Meeting"
+      "Ad Name": "{company_name}_Email_DemandCapture_V2",
+      "Funnel Stage": "Demand Capture"
+      "Subject Line": "sample",
+      "Headline": "sample",
+      "Body": "sample",
+      "CTA": "sample"
     }}
   ]
 }}

@@ -43,9 +43,9 @@ def summarize_text_openai(_client_ref, text_to_summarize, company_name):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4.1-mini",
+            model="gpt-4.1",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant skilled in text summarization."},
+                {"role": "system", "content": "You are an skilled expert in text summarization."},
                 {"role": "user", "content": prompt_instruction}
             ],
             temperature=0.5,
@@ -67,7 +67,7 @@ def generate_ad_content_openai(_client_ref, prompt, company_name):
         
     try:
         response = client.chat.completions.create(
-            model="gpt-4.1-mini",
+            model="gpt-4.1",
             messages=[
                 {"role": "system", "content": f"You are an expert advertising copywriter for {company_name}. You always output valid JSON."},
                 {"role": "user", "content": prompt}

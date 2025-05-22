@@ -12,10 +12,10 @@ from modules.text_utils import sanitize_xml_string # <<< NEW IMPORT
 from prompts import email_prompt, linkedin_prompt, facebook_prompt, search_prompt, display_prompt
 
 # --- Page Configuration ---
-st.set_page_config(page_title="M_AI", layout="wide")
+st.set_page_config(page_title="Danelec Lead Engine GeneratorI", layout="wide")
 
 # --- App Title and Footer ---
-st.title("M_AI")
+st.title("MDanelec Lead Engine Generator")
 
 # --- Initialize OpenAI Client ---
 if 'openai_client_initialized' not in st.session_state:
@@ -225,4 +225,4 @@ if st.session_state.lead_gen_excel_bytes and st.session_state.current_company_na
 
 # --- Footer ---
 st.markdown("---")
-st.markdown("Made by M. Version 0.7")
+st.markdown("Made by M. Version 0.9")

@@ -12,48 +12,48 @@ def get_facebook_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
         destination_link = learn_more_link
         context_priority = f"Prioritize general company information from URL Summary and Additional Context Summary for brand building and increasing awareness of {company_name}."
         specific_instructions = f"""
-        - **Primary Text**:
+        - Primary Text:
             - Length: 300-400 characters.
             - Hook: Capture attention and convey the main message within the first 125 characters (visible before 'See More').
             - Structure: Split into 2-3 short paragraphs for readability on mobile.
             - Tone: Engaging, friendly, and informative.
             - Emojis: Use 1-2 relevant and professional emojis to add personality and visual appeal.
             - Focus: Introduce {company_name}, its mission, or a key unique selling proposition.
-        - **Image Copy**: Text for acompanying image.
-        - **Headline**: Around 27 characters. Make it punchy and attention-grabbing.
-        - **Link Description**: Around 27 characters. Provide a brief additional context or benefit.
+        - Image Copy: Text for acompanying image.
+        - Headline: Around 27 characters. Make it punchy and attention-grabbing.
+        - Link Description: Around 27 characters. Provide a brief additional context or benefit.
         """
     elif funnel_stage == 'Demand Gen':
         cta_button = 'Download'
         destination_link = magnet_link
         context_priority = f"Prioritize the Lead Magnet Summary: '{magnet_sum if magnet_sum else 'Not provided.'}' for generating ad copy. The goal is to get downloads of the lead magnet available at {magnet_link}."
         specific_instructions = f"""
-        - **Primary Text**:
+        - Primary Text:
             - Length: 300-400 characters.
             - Hook: Clearly state the value/benefit of the lead magnet within the first 125 characters.
             - Structure: Split into 2-3 short paragraphs.
             - Tone: Persuasive, highlighting the value of the download.
-            - Emojis: Use 1-2 emojis (e.g., 📖, 💡, 🔗, 🎯) relevant to the lead magnet.
+            - Emojis: Use 1-2 emojis relevant to the lead magnet.
             - Focus: Explain what the lead magnet is and why someone should download it.
-        - **Image Copy**: Text reinforcing the download offer (e.g., "Free PDF Guide").
-        - **Headline**: Around 27 characters. Clear call to download.
-        - **Link Description**: Around 27 characters. Briefly mention a key benefit or content of the magnet.
+        - Image Copy: Text reinforcing the download offer (e.g., "Free PDF Guide").
+        - Headline: Around 27 characters. Clear call to download.
+        - Link Description: Around 27 characters. Briefly mention a key benefit or content of the magnet.
         """
     elif funnel_stage == 'Demand Capture':
         cta_button = 'Book Now' # As specified for Facebook
         destination_link = book_link
         context_priority = f"Focus on the lead objective: '{lead_objective}'. The goal is to get bookings at {book_link}."
         specific_instructions = f"""
-        - **Primary Text**:
+        - Primary Text:
             - Length: 300-400 characters.
             - Hook: Directly address the audience and the '{lead_objective}' within the first 125 characters.
             - Structure: Split into 2-3 short paragraphs.
             - Tone: Direct, urgent (but polite), and benefit-driven.
-            - Emojis: Use 1-2 emojis (e.g., 📅, ⏰, 👉, ✅) that encourage action.
+            - Emojis: Use 1-2 emojis that encourage action.
             - Focus: Clearly explain the benefits of taking the action ({lead_objective}) and make it easy to do so.
-        - **Image Copy**: Text that supports the booking action.
-        - **Headline**: Around 27 characters. Strong call to action.
-        - **Link Description**: Around 27 characters. Reinforce the value of booking.
+        - Image Copy: Text that supports the booking action.
+        - Headline: Around 27 characters. Strong call to action.
+        - Link Description: Around 27 characters. Reinforce the value of booking.
         """
 
     prompt = f"""

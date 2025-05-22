@@ -12,30 +12,30 @@ def get_linkedin_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
         destination_link = learn_more_link
         context_priority = f"Prioritize general company information from URL Summary and Additional Context Summary for brand building and increasing awareness of {company_name}."
         specific_instructions = f"""
-        - **Introductory Text**:
+        - Introductory Text:
             - Length: 300-400 characters.
             - Hook: Capture attention within the first 150 characters.
             - Structure: Split into 2-3 short paragraphs for readability.
             - Tone: Engaging and informative.
-            - Emojis: Use 1-2 professional emojis (e.g., 💡, 🚀, 📈, ✅) where appropriate to enhance readability and engagement, but don't overdo it.
+            - Emojis: Use 1-2 professional emojis where appropriate to enhance readability and engagement, but don't overdo it.
             - Focus: Introduce {company_name} and its core value proposition or a key aspect relevant to brand awareness.
-        - **Image Copy**: Text for acompanying image.
-        - **Headline**: Around 70 characters. Make it intriguing and relevant to the brand.
+        - Image Copy: Text for acompanying image.
+        - Headline: Around 70 characters. Make it intriguing and relevant to the brand.
         """
     elif funnel_stage == 'Demand Gen':
         cta_button = 'Download'
         destination_link = magnet_link
         context_priority = f"Prioritize the Lead Magnet Summary: '{magnet_sum if magnet_sum else 'Not provided.'}' for generating ad copy. The goal is to get downloads of the lead magnet available at {magnet_link}."
         specific_instructions = f"""
-        - **Introductory Text**:
+        - Introductory Text:
             - Length: 300-400 characters.
             - Hook: Clearly state the benefit of the lead magnet within the first 150 characters.
             - Structure: Split into 2-3 short paragraphs.
             - Tone: Value-driven and persuasive.
-            - Emojis: Use 1-2 professional emojis (e.g., 📄, 💡, 🔑) relevant to a downloadable resource.
+            - Emojis: Use 1-2 professional emojis relevant to a downloadable resource.
             - Focus: Highlight the problems the lead magnet solves or the value it provides.
-        - **Image Copy**: Text that reinforces the lead magnet's offer.
-        - **Headline**: Around 70 characters. Clearly state what the user will get.
+        - Image Copy: Text that reinforces the lead magnet's offer.
+        - Headline: Around 70 characters. Clearly state what the user will get.
         """
     elif funnel_stage == 'Demand Capture':
         # CTA button text for Demand Capture is dynamic based on lead_objective
@@ -56,15 +56,15 @@ def get_linkedin_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
         destination_link = book_link
         context_priority = f"Focus on the lead objective: '{lead_objective}'. The goal is to get bookings/meetings at {book_link}."
         specific_instructions = f"""
-        - **Introductory Text**:
+        - Introductory Text:
             - Length: 300-400 characters.
             - Hook: Directly address the audience's need that your '{lead_objective}' fulfills within the first 150 characters.
             - Structure: Split into 2-3 short paragraphs.
             - Tone: Action-oriented and benefit-focused.
-            - Emojis: Use 1-2 professional emojis (e.g., 📅, 💬, 🎯, ✅) relevant to booking or consultation.
+            - Emojis: Use 1-2 professional emojis relevant to booking or consultation.
             - Focus: Persuade users to take the next step ({lead_objective}).
-        - **Image Copy**: Text that supports the direct call to action
-        - **Headline**: Around 70 characters. Clearly state the offer.
+        - Image Copy: Text that supports the direct call to action
+        - Headline: Around 70 characters. Clearly state the offer.
         """
 
     prompt = f"""
@@ -98,12 +98,12 @@ Example of the expected JSON structure (content will vary based on stage):
   "linkedin_ads": [
     {{
       "Ad Name": "{company_name}_LinkedIn_{funnel_stage.replace(' ', '')}_V1",
-      "Funnel Stage": "{funnel_stage}",
-      "Introductory Text": "Generated introductory text (300-400 chars, hook in first 150, paragraphs, maybe an emoji 💡).",
-      "Image Copy": "Short image text.",
-      "Headline": "Compelling LinkedIn Ad Headline (~70 chars)",
-      "Destination": "{destination_link}",
-      "CTA Button": "{cta_button}"
+      "Funnel Stage": "sample",
+      "Introductory Text": "sample",
+      "Image Copy": "sample",
+      "Headline": "sample",
+      "Destination": "sample",
+      "CTA Button": "sample"
     }}
   ]
 }}
