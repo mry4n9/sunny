@@ -2,6 +2,7 @@ def get_email_prompt(company_name, url_sum, additional_sum, lead_objective, book
     prompt = f"""
 You are an expert advertising copywriter for {company_name}.
 Your task is to generate {count} unique email ad variations.
+Adopt best B2B practices.
 
 Context:
 Company context: {url_sum if url_sum else "Not provided."}

@@ -12,30 +12,32 @@ def get_linkedin_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
         destination_link = learn_more_link
         context_priority = f"Prioritize general company information from URL Summary and Additional Context Summary for brand building and increasing awareness of {company_name}."
         specific_instructions = f"""
-        - Introductory Text:
+        Introductory Text:
+            - Use BAB (Before-After-Bridge) framework.
             - Length: 300-400 characters.
             - Hook: Capture attention within the first 150 characters.
-            - Structure: Split into 2-3 short paragraphs for readability.
+            - Structure: Split into paragraphs for readability.
             - Tone: Engaging and informative.
             - Emojis: Use 1-2 professional emojis where appropriate to enhance readability and engagement, but don't overdo it.
             - Focus: Introduce {company_name} and its core value proposition or a key aspect relevant to brand awareness.
-        - Image Copy: Text for acompanying image.
-        - Headline: Around 70 characters. Make it intriguing and relevant to the brand.
+        Image Copy: Text for acompanying image.
+        Headline: Around 70 characters. Make it intriguing and relevant to the brand.
         """
     elif funnel_stage == 'Demand Gen':
         cta_button = 'Download'
         destination_link = magnet_link
         context_priority = f"Prioritize the Lead Magnet Summary: '{magnet_sum if magnet_sum else 'Not provided.'}' for generating ad copy. The goal is to get downloads of the lead magnet available at {magnet_link}."
         specific_instructions = f"""
-        - Introductory Text:
+        Introductory Text:
+            - Use PAS (Problem-Agitate-Solution) framework.
             - Length: 300-400 characters.
             - Hook: Clearly state the benefit of the lead magnet within the first 150 characters.
-            - Structure: Split into 2-3 short paragraphs.
+            - Structure: Split into paragraphs.
             - Tone: Value-driven and persuasive.
             - Emojis: Use 1-2 professional emojis relevant to a downloadable resource.
             - Focus: Highlight the problems the lead magnet solves or the value it provides.
-        - Image Copy: Text that reinforces the lead magnet's offer.
-        - Headline: Around 70 characters. Clearly state what the user will get.
+        Image Copy: Accompanying image text.
+        Headline: Around 70 characters. Clearly state what the user will get.
         """
     elif funnel_stage == 'Demand Capture':
         # CTA button text for Demand Capture is dynamic based on lead_objective
@@ -56,20 +58,22 @@ def get_linkedin_prompt_for_stage(company_name, url_sum, additional_sum, magnet_
         destination_link = book_link
         context_priority = f"Focus on the lead objective: '{lead_objective}'. The goal is to get bookings/meetings at {book_link}."
         specific_instructions = f"""
-        - Introductory Text:
+        Introductory Text:
+            - Use 4Ps (Promise-Picture-Proof-Push) framework.
             - Length: 300-400 characters.
             - Hook: Directly address the audience's need that your '{lead_objective}' fulfills within the first 150 characters.
-            - Structure: Split into 2-3 short paragraphs.
+            - Structure: Split into paragraphs.
             - Tone: Action-oriented and benefit-focused.
             - Emojis: Use 1-2 professional emojis relevant to booking or consultation.
             - Focus: Persuade users to take the next step ({lead_objective}).
-        - Image Copy: Text that supports the direct call to action
-        - Headline: Around 70 characters. Clearly state the offer.
+        Image Copy: Accompanying image text.
+        Headline: Around 70 characters. Clearly state the offer.
         """
 
     prompt = f"""
 You are an expert advertising copywriter for {company_name} creating LinkedIn ads.
 Your task is to generate {count} unique LinkedIn ad variations for the '{funnel_stage}' funnel stage.
+Adopt best B2B practices.
 
 Context:
 URL Summary: {url_sum if url_sum else "Not provided."}
