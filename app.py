@@ -89,7 +89,7 @@ if generate_button:
             st.stop()
 
         # 2. Summarize Context (AI)
-        status_ui.write("Step 2/6: Summarizing extracted context (AI)...")
+        status_ui.write("Step 2/6: Summarizing extracted context...")
         # Pass already sanitized raw text to summarizers
         _url_sum_text = url_sum.get_url_summary(None, url_raw_text, company_name_input)
         _additional_sum_text = additional_sum.get_additional_summary(None, additional_raw_text, company_name_input) if additional_raw_text else ""
@@ -131,7 +131,7 @@ if generate_button:
         # 4. Prepare Prompts and Generate Ad Content (AI)
         # Prompts use sanitized summaries (url_sum_text, additional_sum_text, magnet_sum_text)
         
-        status_ui.write("Step 4/6: Generating Email ad content (AI)...")
+        status_ui.write("Step 4/6: Generating Email ad content...")
         email_ads_data = []
         email_gen_prompt = email_prompt.get_email_prompt(
             company_name_input, url_sum_text, additional_sum_text,
@@ -148,7 +148,7 @@ if generate_button:
         funnel_stages = ["Brand Awareness", "Demand Gen", "Demand Capture"]
 
         for stage in funnel_stages:
-            status_ui.write(f"Step 4/6: Generating LinkedIn ads for {stage} (AI)...")
+            status_ui.write(f"Step 4/6: Generating LinkedIn ads for {stage}...")
             linkedin_gen_prompt = linkedin_prompt.get_linkedin_prompt_for_stage(
                 company_name_input, url_sum_text, additional_sum_text, magnet_sum_text,
                 lead_objective_input, learn_more_link_input, magnet_link_input, book_link_input,
@@ -160,7 +160,7 @@ if generate_button:
             else:
                 st.warning(f"Could not generate or parse LinkedIn ({stage}) ad data.")
 
-            status_ui.write(f"Step 4/6: Generating Facebook ads for {stage} (AI)...")
+            status_ui.write(f"Step 4/6: Generating Facebook ads for {stage}...")
             facebook_gen_prompt = facebook_prompt.get_facebook_prompt_for_stage(
                 company_name_input, url_sum_text, additional_sum_text, magnet_sum_text,
                 lead_objective_input, learn_more_link_input, magnet_link_input, book_link_input,
@@ -175,7 +175,7 @@ if generate_button:
         linkedin_ads_data = sanitize_ad_list(linkedin_ads_data_accumulator) # Sanitize accumulated list
         facebook_ads_data = sanitize_ad_list(facebook_ads_data_accumulator) # Sanitize accumulated list
         
-        status_ui.write("Step 4/6: Generating Google Search ad content (AI)...")
+        status_ui.write("Step 4/6: Generating Google Search ad content...")
         search_ads_data = []
         search_gen_prompt = search_prompt.get_search_prompt(company_name_input, url_sum_text, additional_sum_text)
         search_json_output = generate_ad_content_openai(None, search_gen_prompt, company_name_input)
@@ -184,7 +184,7 @@ if generate_button:
         else:
             st.warning("Could not generate or parse Google Search ad data.")
 
-        status_ui.write("Step 4/6: Generating Google Display ad content (AI)...")
+        status_ui.write("Step 4/6: Generating Google Display ad content...")
         display_ads_data = []
         display_gen_prompt = display_prompt.get_display_prompt(company_name_input, url_sum_text, additional_sum_text)
         display_json_output = generate_ad_content_openai(None, display_gen_prompt, company_name_input)
